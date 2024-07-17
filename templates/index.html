@@ -84,16 +84,22 @@
     <div class="container">
         <h1>Welcome to the Real Estate Info Site</h1>
         <form id="realEstateForm">
+            {% if estate_types %}
             <select name="estate_type" required>
                 {% for etype in estate_types %}
                 <option value="{{ etype }}">{{ etype }}</option>
                 {% endfor %}
             </select>
+            {% endif %}
+
+            {% if estate_categories %}
             <select name="estate_category" required>
                 {% for ecat in estate_categories %}
                 <option value="{{ ecat }}">{{ ecat }}</option>
                 {% endfor %}
             </select>
+            {% endif %}
+
             <input type="number" name="price_per_meter" placeholder="Enter price per meter" required>
             <input type="number" name="space" placeholder="Enter space in sqm" required>
             <button type="submit">Submit</button>
@@ -121,16 +127,23 @@
 
             const data = await response.json();
 
-            document.getElementById('modalBody').innerHTML = `
-                <p>Price Category: ${data.price_category}</p>
-                <p>Space Category: ${data.space_category}</p>
-                <p>Estate Type: ${data.estate_type}</p>
-                ${data.map_html}
-                <h2>Filtered Rules</h2>
-                ${data.filtered_rules}
-                <h2>Found Districts</h2>
-                <ul>${data.found_districts.map(d => `<li>${d}</li>`).join('')}</ul>
-            `;
+            if (data.message) {
+                // Show the message in the modal if no matching districts are found
+                document.getElementById('modalBody').innerHTML = `
+                    <p>${data.message}</p>
+                `;
+            } else {
+                document.getElementById('modalBody').innerHTML = `
+                    <p>Price Category: ${data.price_category}</p>
+                    <p>Space Category: ${data.space_category}</p>
+                    <p>Estate Type: ${data.estate_type}</p>
+                    ${data.map_html}
+                    <h2>Filtered Rules</h2>
+                    ${data.filtered_rules}
+                    <h2>Found Districts</h2>
+                    <ul>${data.found_districts.map(d => `<li>${d}</li>`).join('')}</ul>
+                `;
+            }
 
             const modal = document.getElementById("myModal");
             const span = document.getElementsByClassName("close")[0];
