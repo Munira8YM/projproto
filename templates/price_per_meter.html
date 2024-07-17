@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Price per Meter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        select, input {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        a {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enter District Details</h1>
+    <form action="/district_price" method="post">
+        <select name="estate_type">
+            {% for etype in estate_types %}
+            <option value="{{ etype }}">{{ etype }}</option>
+            {% endfor %}
+        </select>
+        <select name="estate_category">
+            {% for ecat in estate_categories %}
+            <option value="{{ ecat }}">{{ ecat }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="price_per_meter" placeholder="Enter price per meter" required>
+        <input type="number" name="space" placeholder="Enter space in sqm" required>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="/">Back to Home</a>
+</body>
+</html>
